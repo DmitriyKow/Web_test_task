@@ -1,29 +1,13 @@
 package WebTests;
 import static org.junit.Assert.assertEquals;
-import java.security.PublicKey;
-import java.util.concurrent.TimeUnit;
-import org.junit.*;
-import org.openqa.selenium.*;
+import static org.junit.Assert.assertTrue;
+
 import java.util.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.*;
-import com.opera.core.systems.*;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.junit.runner.RunWith;
-import org.openqa.selenium.chrome.ChromeDriverService;
-import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.junit.Assert;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -33,19 +17,19 @@ public class TestSourse {
 
 
 
-    public WebElement findandtype (String cssloc, String Message) {
+    public WebElement FindAndType (String cssloc, String Message) {
 
         WebElement result = null;
 
-        List<WebElement> allfields = driver.findElements(By.cssSelector(cssloc));
-        myforloop:
-        for (WebElement web : allfields) {
+        List<WebElement> AllFields = driver.findElements(By.cssSelector(cssloc));
+        MyForLoop:
+        for (WebElement web : AllFields) {
             System.out.println(web.toString());
             try {
                 web.sendKeys(Message);
                 result = web;
                 web.sendKeys(Keys.TAB);
-                break myforloop;
+                break MyForLoop;
             } catch (Exception e) {}
         }
         return result;
@@ -53,19 +37,19 @@ public class TestSourse {
 
 
 
-    public WebElement findandclick (String cssloc) {
+    public WebElement FindAndClick (String cssloc) {
 
         WebElement result = null;
 
         List<WebElement> allfields = driver.findElements(By.cssSelector(cssloc));
-        myforloop:
+        MyForLoop:
         for (WebElement web : allfields) {
             System.out.println(web.toString());
             try {
                 web.click();
                 result = web;
                 // web.sendKeys(Keys.TAB);
-                break myforloop;
+                break MyForLoop;
             } catch (Exception e) {}
         }
         return result;
@@ -73,11 +57,9 @@ public class TestSourse {
 
 
 
-    public void GEtSite (String Sitename) {
+    public void GetSite() {
 
-        if (Sitename.isEmpty()) {
-            driver.get("http://testtask.22web.org/task.html");
-        }
+        driver.get("http://testtask.22web.org/task.html");
 
         System.out.println(driver.getTitle());
         Assert.assertEquals(driver.getTitle(),"Test Task for Automation");
@@ -88,9 +70,9 @@ public class TestSourse {
 
 
     public void DeleteLine(String name) throws Exception {
-        String checkelement = null;
+        String CheckElement = null;
 
-        GEtSite("");
+        GetSite();
         //Get all lines
         List<WebElement> allRows = driver.findElements(By.tagName("tr"));
 
@@ -117,41 +99,17 @@ public class TestSourse {
     }
 
 
-
-
-    public void CheckTheLine(String name1, String name2) throws Exception {
-
-        GEtSite("");
-        String eq1 = null,eq2 = null;
-
-        WebElement table = driver.findElement(By.className("x-grid-table"));
-
-        List<WebElement> allRows = table.findElements(By.tagName("tr"));
-
-        // 1. Rewrite with assert
-        // 2. Rewrite without for and if
-        for (WebElement row : allRows) {
-            List<WebElement> cells = row.findElements(By.tagName("td"));
-            for (WebElement cell : cells) {
-                System.out.println(cell.getText());
-                if (cell.getText().equals(name1)) {
-                    eq1 = cell.getText();
-                }
-                if (cell.getText().equals(name2)) {
-                    eq2 = cell.getText();
-                }
-            }
-        }
-
-        Assert.assertEquals(eq1,name1);
-        Assert.assertEquals(eq2,name2);
+    public void CheckLineValues (String value1, String value2)  throws Exception {
+        List<String> AllRows = new ArrayList<String>();
+        AllRows = GetLines();
+        assertTrue(CheckStringInList(AllRows,value1));
+        assertTrue(CheckStringInList(AllRows,value2));
 
     }
 
-
     public List<String> GetLines() throws Exception {
 
-        GEtSite("");
+        GetSite();
         List<String> AllRows = new ArrayList<String>();
         //read all table
         WebElement table = driver.findElement(By.className("x-grid-table"));
@@ -194,7 +152,7 @@ public class TestSourse {
         System.out.println("The menu is "+WindowName);
 
         //Fill form boxes
-        findandclick(".x-form-field,.x-form-checkbox"); // click on checkbox
+        FindAndClick(".x-form-field,.x-form-checkbox"); // click on checkbox
         driver.findElement(By.name("name")).sendKeys("Web_name");
         driver.findElement(By.name("notes")).sendKeys("Web_note");
         driver.findElement(By.name("priority")).sendKeys("3");
@@ -213,19 +171,19 @@ public class TestSourse {
 
 
 
-    public void Fillline () {
+    public void FillLine() {
         //click button Add
         driver.findElement(By.xpath("//span[text()='Add']")).click();
 
         // fill all boxes
         driver.findElement(By.cssSelector(".x-form-field,.x-form-text"));
-        element = findandtype(".x-form-field,.x-form-text","Webdriver");
-        findandtype(".x-form-field,.x-form-text","The note");
-        findandtype(".x-form-field,.x-form-text,.x-form-focus","2");
-        findandtype(".x-form-field,.x-form-text,.x-form-focus","01/01/2099");
+        element = FindAndType(".x-form-field,.x-form-text", "Webdriver");
+        FindAndType(".x-form-field,.x-form-text", "The note");
+        FindAndType(".x-form-field,.x-form-text,.x-form-focus", "2");
+        FindAndType(".x-form-field,.x-form-text,.x-form-focus", "01/01/2099");
 
         //click on todays date button
-        findandclick(".x-trigger-index-0,.x-form-trigger,.x-form-date-trigger,.x-form-trigger-last");
+        FindAndClick(".x-trigger-index-0,.x-form-trigger,.x-form-date-trigger,.x-form-trigger-last");
 
         //click button Apply
         driver.findElement(By.xpath("//span[text()='Apply']")).click();
