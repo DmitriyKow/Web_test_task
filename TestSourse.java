@@ -172,6 +172,10 @@ public class TestSourse {
 
 
     public void FillLine() {
+        //wait for add button appear
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Add']")));
+
         //click button Add
         driver.findElement(By.xpath("//span[text()='Add']")).click();
 
