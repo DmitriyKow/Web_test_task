@@ -2,10 +2,8 @@ package WebTests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-
 import java.util.concurrent.TimeUnit;
 import java.util.*;
-
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.After;
 import org.junit.Before;
